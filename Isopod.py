@@ -49,4 +49,24 @@ class isopod:
 
         #lists for keypoitns and descriptors
         self.keypoints = []
+
         self.descriptors = []
+
+    def get_image(self, *images):
+        '''
+        Gets image(s) and adds it in color and grayscale to lists
+
+        Parameters:
+        ----------
+        *images: str
+            Variable number of image filenames to be opened.
+        '''
+
+        for image in images:
+            if self.path is not None:
+                opened_image = cv.imread(self.path+image)
+            else:
+                opened_image = cv.imread(image)
+
+            self.images.append(opened_image)
+            self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
