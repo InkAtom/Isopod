@@ -52,43 +52,43 @@ class isopod:
         self.descriptors = []
         
         def get_image(self, *images):
-        '''
-        Gets image(s) and adds it in color and grayscale to lists
+            '''
+            Gets image(s) and adds it in color and grayscale to lists
 
-        Parameters:
-        ----------
-        *images: str
-            Variable number of image filenames to be opened.
-        '''
+            Parameters:
+            ----------
+            *images: str
+                Variable number of image filenames to be opened.
+            '''
 
-        for image in images:
-            if self.path is not None:
-                opened_image = cv.imread(self.path+image)
-            else:
-                opened_image = cv.imread(image)
+            for image in images:
+                if self.path is not None:
+                    opened_image = cv.imread(self.path+image)
+                else:
+                    opened_image = cv.imread(image)
 
-            self.images.append(opened_image)
-            self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
-        
+                self.images.append(opened_image)
+                self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
+            
         
         
         def calculate_keypoints(self):
-        '''
-        Applies SIFT algorithm??
-        '''
+            '''
+            Applies SIFT algorithm??
+            '''
 
-        #loop through grayscale images to apply sift to each image
-        for gray_image in self.grayscale_images:
+            #loop through grayscale images to apply sift to each image
+            for gray_image in self.grayscale_images:
 
-            #initialize sift instance
-            self.sift = cv.SIFT.create(contrastThreshold = self.c_thr,
-                                    edgeThreshold=self.e_thr,
-                                    sigma=self.sigma,
-                                    nOctaveLayers=self.n_oct_layers)
-            
-            #detect keypoints and compute descriptors
-            keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
-            self.keypoints.append(np.array(keypoints))
-            self.descriptors.append(np.array(descriptors))
+                #initialize sift instance
+                self.sift = cv.SIFT.create(contrastThreshold = self.c_thr,
+                                        edgeThreshold=self.e_thr,
+                                        sigma=self.sigma,
+                                        nOctaveLayers=self.n_oct_layers)
+                
+                #detect keypoints and compute descriptors
+                keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
+                self.keypoints.append(np.array(keypoints))
+                self.descriptors.append(np.array(descriptors))
 
   
