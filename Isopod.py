@@ -49,10 +49,9 @@ class isopod:
 
         #lists for keypoitns and descriptors
         self.keypoints = []
-
         self.descriptors = []
-
-    def get_image(self, *images):
+        
+        def get_image(self, *images):
         '''
         Gets image(s) and adds it in color and grayscale to lists
 
@@ -70,3 +69,26 @@ class isopod:
 
             self.images.append(opened_image)
             self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
+        
+        
+        
+        def calculate_keypoints(self):
+        '''
+        Applies SIFT algorithm??
+        '''
+
+        #loop through grayscale images to apply sift to each image
+        for gray_image in self.grayscale_images:
+
+            #initialize sift instance
+            self.sift = cv.SIFT.create(contrastThreshold = self.c_thr,
+                                    edgeThreshold=self.e_thr,
+                                    sigma=self.sigma,
+                                    nOctaveLayers=self.n_oct_layers)
+            
+            #detect keypoints and compute descriptors
+            keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
+            self.keypoints.append(np.array(keypoints))
+            self.descriptors.append(np.array(descriptors))
+
+  
