@@ -49,6 +49,7 @@ class isopod:
 
         #lists for keypoitns and descriptors
         self.keypoints = []
+
         self.descriptors = []
 
     def get_image(self, *images):
