@@ -1,7 +1,25 @@
 import numpy as np 
 import cv2 as cv
 
+def dummy_func(a):
+    """Dummy function
+    
+    Returns nothing because it is a stupid function.
+    
+    """
+
+    return None
+
+
+
 class isopod:
+    """
+    Isopod Class
+
+    This is a temporary class description.
+    
+    """
+
 
     def __init__(self, 
                  c_thr = 0.0003, 
@@ -12,7 +30,9 @@ class isopod:
                  edge_threshold = 1.,
                  path = None):
                  
-        '''Class initialization function
+        """Class initialization function
+
+        Initializes Isopod class and sets some default class variables.
         
         Parameters
         ----------
@@ -31,7 +51,7 @@ class isopod:
         path : str, optional
             System path to images. 
 
-        '''
+        """
 
         #set parameter defaults for the class
         #SIFT parameters
@@ -52,14 +72,14 @@ class isopod:
         self.descriptors = []
         
         def get_image(self, *images):
-            '''
+            """
             Gets image(s) and adds it in color and grayscale to lists
 
             Parameters:
             ----------
             *images: str
                 Variable number of image filenames to be opened.
-            '''
+            """
 
             for image in images:
                 if self.path is not None:
@@ -73,9 +93,12 @@ class isopod:
         
         
         def calculate_keypoints(self):
-            '''
+            """
             Applies SIFT algorithm??
-            '''
+
+            Parameters:
+            ----------
+            """
 
             #loop through grayscale images to apply sift to each image
             for gray_image in self.grayscale_images:
@@ -90,5 +113,16 @@ class isopod:
                 keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
                 self.keypoints.append(np.array(keypoints))
                 self.descriptors.append(np.array(descriptors))
+        
+        def match_keypoints(self,k ):
+            
+            for g1, gray1 in enumerate(self.grayscale_images):
+                for g2, gray2 in enumerate(self.grayscale_images):
+
+                    if g1 != g2:
+                        
+
+            bf = cv.BFMatcher()
+            matches = bf.knnMatch()
 
   
