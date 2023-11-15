@@ -1,5 +1,6 @@
 import numpy as np 
 import cv2 as cv
+import matplotlib.pyplot as plt
 
 def dummy_func(a):
     """Dummy function
@@ -99,7 +100,7 @@ class isopod:
         Parameters:
         ----------
         """
-
+        
         #loop through grayscale images to apply sift to each image
         for gray_image in self.grayscale_images:
 
@@ -114,10 +115,13 @@ class isopod:
             self.keypoints.append(np.array(keypoints))
             self.descriptors.append(np.array(descriptors))
     
-    def match_keypoints(self,k=1, norm=cv.NORM_L2, crosscheck=True):
+    def match_keypoints(self,match_distance=0.1):
         
         #list of considered images
         considered = []
+
+        #list of matches to associated images
+        self.matches_list = []
 
         for g1, gray1 in enumerate(self.grayscale_images):
             considered.append(g1)
@@ -125,9 +129,17 @@ class isopod:
 
                 if g1 != g2 and g2 not in considered:
                     
-                    bf = cv.BFMatcher(normType=norm,crossCheck=crosscheck) 
-                    matches = bf.knnMatch(self.descriptors[g1],self.descriptors[g2],k=k)
-        return matches
+                    bf = cv.BFMatcher() 
+                    matches = bf.knnMatch(self.descriptors[g1],self.descriptors[g2],k=2)
+
+                    #filter out only the good matches
+                    good_matches=[]
+                    for m,n in matches:
+                        if m.distance<match_distance*n.distance:
+                            good_matches.append([m])
+
+                    #append to list
+                    self.matches_list.append([g1,g2,good_matches])
         
 
 if __name__ == "__main__":
@@ -135,5 +147,13 @@ if __name__ == "__main__":
     isp = isopod()
     isp.get_image("cut_1.png", "cut_2.png")
     isp.calculate_keypoints()
-    matches = isp.match_keypoints()
+    isp.match_keypoints(0.05)
+
     
+    new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
+                               isp.grayscale_images[1], isp.keypoints[1],
+                               isp.matches_list[0][2], None,
+                               flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+    plt.imshow(new_img)
+    plt.show()
