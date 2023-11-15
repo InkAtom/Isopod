@@ -71,58 +71,69 @@ class isopod:
         self.keypoints = []
         self.descriptors = []
         
-        def get_image(self, *images):
-            """
-            Gets image(s) and adds it in color and grayscale to lists
+    def get_image(self, *images):
+        """
+        Gets image(s) and adds it in color and grayscale to lists
 
-            Parameters:
-            ----------
-            *images: str
-                Variable number of image filenames to be opened.
-            """
+        Parameters:
+        ----------
+        *images: str
+            Variable number of image filenames to be opened.
+        """
 
-            for image in images:
-                if self.path is not None:
-                    opened_image = cv.imread(self.path+image)
-                else:
-                    opened_image = cv.imread(image)
+        for image in images:
+            if self.path is not None:
+                opened_image = cv.imread(self.path+image)
+            else:
+                opened_image = cv.imread(image)
 
-                self.images.append(opened_image)
-                self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
+            self.images.append(opened_image)
+            self.grayscale_images.append(cv.cvtColor(opened_image, cv.COLOR_BGR2GRAY))
+        
+    
+    
+    def calculate_keypoints(self):
+        """
+        Applies SIFT algorithm??
+
+        Parameters:
+        ----------
+        """
+
+        #loop through grayscale images to apply sift to each image
+        for gray_image in self.grayscale_images:
+
+            #initialize sift instance
+            self.sift = cv.SIFT.create(contrastThreshold = self.c_thr,
+                                    edgeThreshold=self.e_thr,
+                                    sigma=self.sigma,
+                                    nOctaveLayers=self.n_oct_layers)
             
+            #detect keypoints and compute descriptors
+            keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
+            self.keypoints.append(np.array(keypoints))
+            self.descriptors.append(np.array(descriptors))
+    
+    def match_keypoints(self,k=1, norm=cv.NORM_L2, crosscheck=True):
         
+        #list of considered images
+        considered = []
+
+        for g1, gray1 in enumerate(self.grayscale_images):
+            considered.append(g1)
+            for g2, gray2 in enumerate(self.grayscale_images):
+
+                if g1 != g2 and g2 not in considered:
+                    
+                    bf = cv.BFMatcher(normType=norm,crossCheck=crosscheck) 
+                    matches = bf.knnMatch(self.descriptors[g1],self.descriptors[g2],k=k)
+        return matches
         
-        def calculate_keypoints(self):
-            """
-            Applies SIFT algorithm??
 
-            Parameters:
-            ----------
-            """
-
-            #loop through grayscale images to apply sift to each image
-            for gray_image in self.grayscale_images:
-
-                #initialize sift instance
-                self.sift = cv.SIFT.create(contrastThreshold = self.c_thr,
-                                        edgeThreshold=self.e_thr,
-                                        sigma=self.sigma,
-                                        nOctaveLayers=self.n_oct_layers)
-                
-                #detect keypoints and compute descriptors
-                keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
-                self.keypoints.append(np.array(keypoints))
-                self.descriptors.append(np.array(descriptors))
-        
-        def match_keypoints(self,k ):
-            
-            for g1, gray1 in enumerate(self.grayscale_images):
-                for g2, gray2 in enumerate(self.grayscale_images):
-
-                    if g1 != g2:
-                        
-
-            bf = cv.BFMatcher()
-            matches = bf.knnMatch()
-
-  
+if __name__ == "__main__":
+    
+    isp = isopod()
+    isp.get_image("cut_1.png", "cut_2.png")
+    isp.calculate_keypoints()
+    matches = isp.match_keypoints()
+    
