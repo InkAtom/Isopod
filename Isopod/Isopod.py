@@ -116,30 +116,16 @@ class isopod:
             self.descriptors.append(np.array(descriptors))
     
     def match_keypoints(self,match_distance=0.1):
-        
-        #list of considered images
-        considered = []
 
         #list of matches to associated images
-        self.matches_list = []
+        self.matches = []
 
-        for g1, gray1 in enumerate(self.grayscale_images):
-            considered.append(g1)
-            for g2, gray2 in enumerate(self.grayscale_images):
+        bf = cv.BFMatcher() 
+        matches = bf.knnMatch(self.descriptors[0],self.descriptors[1],k=2)
 
-                if g1 != g2 and g2 not in considered:
-                    
-                    bf = cv.BFMatcher() 
-                    matches = bf.knnMatch(self.descriptors[g1],self.descriptors[g2],k=2)
-
-                    #filter out only the good matches
-                    good_matches=[]
-                    for m,n in matches:
-                        if m.distance<match_distance*n.distance:
-                            good_matches.append([m])
-
-                    #append to list
-                    self.matches_list.append([g1,g2,good_matches])
+        for m,n in matches:
+            if m.distance<match_distance*n.distance:
+                self.matches.append([m])
         
 
 if __name__ == "__main__":
