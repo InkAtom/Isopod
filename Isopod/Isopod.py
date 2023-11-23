@@ -2,23 +2,24 @@ import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
 
-def dummy_func(a):
-    """Dummy function
-    
-    Returns nothing because it is a stupid function.
-    
-    """
-
-    return None
-
-
-
 class isopod:
-    """
-    Isopod Class
+    """InterStitching Of Pictures based On Descriptors aka ISOPOD class
 
-    This is a temporary class description.
-    
+    Calling an instance of this class and feeding two images into it
+    allows to automatically stitch them together, assuming they contain the  
+    same area or object. The automatic detection of which areas are to be stitched together is
+    based on the `SIFT`_ algorithm.
+
+    Args:
+            c_thr (float): Contrast threshold parameter for the SIFT algorithm. Defaults to 0.0003.
+            e_thr (float): Edge threshold parameter for the SIFT algorithm. Defaults to 10.
+            n_oct_layers (int): Parameter indicating the layers for each octave for the SIFt algorithm.
+                Defaults to 8.
+           path (str): If images can be found at a different location, the path to their folder should 
+                be specified here. Defaults to None.
+
+    .. _SIFT:
+        https://en.wikipedia.org/wiki/Scale-invariant_feature_transform
     """
 
 
@@ -27,32 +28,13 @@ class isopod:
                  e_thr= 10.,
                  sigma = 4.,
                  n_oct_layers = 8,
-                 size_threshold = 2.,
-                 edge_threshold = 1.,
                  path = None):
-                 
-        """Class initialization function
+        """Initialization function for the isopod class
 
-        Initializes Isopod class and sets some default class variables.
-        
-        Parameters
-        ----------
-        c_thr : float, optional
-            Contrast threshold for keypoint detection.
-        
-        e_thr : float, optional
-            Edge threshold for keypoint detection.
-        
-        sigma : float, optional
-            Blur factor applied at each octave.
-
-        n_oct_layers : int, optional
-            Number of layers per octave.
-        
-        path : str, optional
-            System path to images. 
-
-        """
+        This function sets up the default instance initialization for the isopod class. It
+        also sets some instance variables, empty lists that will be filled. See class docstring.
+                    
+        """ 
 
         #set parameter defaults for the class
         #SIFT parameters
@@ -65,21 +47,29 @@ class isopod:
         self.path = path
 
         #initialize image list
+        #: list of array: List holding the original images.
         self.images = []
+
+        #: list of array: List holding grayscale versions of the original images.
         self.grayscale_images = []
 
         #lists for keypoitns and descriptors
+        #: list of cv.Keypoint: List holding the keypoints for the analyzed images.
         self.keypoints = []
+
+        #: list of array: List holding the descriptors belonging to the keypoints in 
         self.descriptors = []
         
     def get_image(self, *images):
-        """
-        Gets image(s) and adds it in color and grayscale to lists
+        """Image getter
+        
+        Gets images and adds them in color and grayscale to isopod.images.
 
-        Parameters:
-        ----------
-        *images: str
-            Variable number of image filenames to be opened.
+        Args:
+            *images: Variable number of image filenames to be opened. More than 2 can be opened,
+                but only the first two will be stitched together. If images are in different folders,
+                this function can be called once for each.
+        
         """
 
         for image in images:
@@ -94,11 +84,10 @@ class isopod:
     
     
     def calculate_keypoints(self):
-        """
-        Applies SIFT algorithm??
-
-        Parameters:
-        ----------
+        """Keypoint and Descriptor calculation
+        
+        This class function applies the SIFT algorithm to each image and calculates their keypoints
+        and accompanying descriptors.
         """
         
         #loop through grayscale images to apply sift to each image
@@ -116,8 +105,20 @@ class isopod:
             self.descriptors.append(np.array(descriptors))
     
     def match_keypoints(self,match_distance=0.1):
+        """Keypoint matcher
+
+        This function forms keypoint pairs between the images based on the distance between descriptors.
+
+        Args:
+            match_distance (float): This parameter regulates the acceptance threshold for descriptor pairs.
+                L2-distances for the 2 nearest neighbours in image 2 are calculated for each descriptor
+                in image 1. If the nearer neighbour is closer than match_distance*distance to second nearest 
+                neighbour, then the descriptors are accepted as pair. Lower threshold leads to more accurate pairs.
+                Defaults to 0.1.
+        """
 
         #list of matches to associated images
+        #: list of lists of cv.DMatch: List holding all the keypoint pairs. Shaped this way to be used with cv.drawMatchesKnn
         self.matches = []
 
         bf = cv.BFMatcher() 
@@ -134,11 +135,12 @@ if __name__ == "__main__":
     isp.get_image("cut_1.png", "cut_2.png")
     isp.calculate_keypoints()
     isp.match_keypoints(0.05)
-
+    print(np.shape(isp.matches))
+    print(type(isp.matches[0][0]))
     
     new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
                                isp.grayscale_images[1], isp.keypoints[1],
-                               isp.matches_list[0][2], None,
+                               isp.matches, None,
                                flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
     plt.imshow(new_img)

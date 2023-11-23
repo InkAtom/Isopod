@@ -5,5 +5,6 @@ Isopod Type Header
 
 Function to perform Isopod type things.
 
-.. automodule:: Isopod
+.. autoclass:: Isopod.isopod
    :members:
+   :show-inheritance:

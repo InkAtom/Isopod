@@ -72,18 +72,107 @@
   <div class="section" id="isopod-type-header">
 <span id="isopod"></span><h1>Isopod Type Header<a class="headerlink" href="#isopod-type-header" title="Permalink to this heading"></a></h1>
 <p>Function to perform Isopod type things.</p>
-<span class="target" id="module-Isopod"></span><dl class="py function">
-<dt class="sig sig-object py" id="Isopod.dummy_func">
-<span class="sig-prename descclassname"><span class="pre">Isopod.</span></span><span class="sig-name descname"><span class="pre">dummy_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.dummy_func" title="Permalink to this definition"></a></dt>
-<dd><p>Dummy function</p>
-<p>Returns nothing because it is a stupid function.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="Isopod.isopod">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Isopod.</span></span><span class="sig-name descname"><span class="pre">isopod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0003</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_oct_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod" title="Permalink to this definition"></a></dt>
-<dd><p>Isopod Class</p>
-<p>This is a temporary class description.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Isopod.</span></span><span class="sig-name descname"><span class="pre">isopod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0003</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_oct_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>InterStitching Of Pictures based On Descriptors aka ISOPOD class</p>
+<p>Calling an instance of this class and feeding two images into it
+allows to automatically stitch them together, assuming they contain the
+same area or object. The automatic detection of which areas are to be stitched together is
+based on the <a class="reference external" href="https://en.wikipedia.org/wiki/Scale-invariant_feature_transform">SIFT</a> algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c_thr</strong> (<em>float</em>) – Contrast threshold parameter for the SIFT algorithm. Defaults to 0.0003.</p></li>
+<li><p><strong>e_thr</strong> (<em>float</em>) – Edge threshold parameter for the SIFT algorithm. Defaults to 10.</p></li>
+<li><p><strong>n_oct_layers</strong> – Parameter indicating the layers for each octave for the SIFt algorithm.
+Defaults to 8.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.images">
+<span class="sig-name descname"><span class="pre">images</span></span><a class="headerlink" href="#Isopod.isopod.images" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the original images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.grayscale_images">
+<span class="sig-name descname"><span class="pre">grayscale_images</span></span><a class="headerlink" href="#Isopod.isopod.grayscale_images" title="Permalink to this definition"></a></dt>
+<dd><p>List holding grayscale versions of the original images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.keypoints">
+<span class="sig-name descname"><span class="pre">keypoints</span></span><a class="headerlink" href="#Isopod.isopod.keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the keypoints for the analyzed images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of cv.Keypoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.descriptors">
+<span class="sig-name descname"><span class="pre">descriptors</span></span><a class="headerlink" href="#Isopod.isopod.descriptors" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the descriptors belonging to the keypoints in</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.get_image">
+<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.get_image" title="Permalink to this definition"></a></dt>
+<dd><p>Image getter</p>
+<p>Gets images and adds them in color and grayscale to isopod.images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*images</strong> – Variable number of image filenames to be opened. More than 2 can be opened,
+but only the first two will be stitched together. If images are in different folders,
+this function can be called once for each.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.calculate_keypoints">
+<span class="sig-name descname"><span class="pre">calculate_keypoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.calculate_keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>Keypoint and Descriptor calculation</p>
+<p>This class function applies the SIFT algorithm to each image and calculates their keypoints
+and accompanying descriptors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.match_keypoints">
+<span class="sig-name descname"><span class="pre">match_keypoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.match_keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>Keypoint matcher</p>
+<p>This function forms keypoint pairs between the images based on the distance between descriptors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>match_distance</strong> (<em>float</em>) – This parameter regulates the acceptance threshold for descriptor pairs.
+L2-distances for the 2 nearest neighbours in image 2 are calculated for each descriptor
+in image 1. If the nearer neighbour is closer than match_distance*distance to second nearest
+neighbour, then the descriptors are accepted as pair. Lower threshold leads to more accurate pairs.
+Defaults to 0.1.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
