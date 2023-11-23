@@ -1,6 +1,7 @@
 import numpy as np 
 import cv2 as cv
 import matplotlib.pyplot as plt
+import imutils
 
 class isopod:
     """InterStitching Of Pictures based On Descriptors aka ISOPOD class
@@ -127,6 +128,98 @@ class isopod:
         for m,n in matches:
             if m.distance<match_distance*n.distance:
                 self.matches.append([m])
+
+
+    def resize_images(self):
+        """Image resizing
+        
+        This method resizes the larger image to be the same as the smaller one 
+        in terms of keypoint size.
+        """
+
+        #initialize array holding the size difference
+        size_differences = []
+
+        #compare sizes and append result to size array
+        for match in self.matches:
+            size1 = self.keypoints[0][match[0].queryIdx].size
+            size2 = self.keypoints[1][match[0].trainIdx].size
+
+            size_difference = size1-size2
+            size_differences.append(size_difference) 
+        
+        #exit function if the size difference is very small
+        if np.max(np.abs(size_differences))<0.01:
+            return
+        
+        #get the mean amount to resize by (not all size differences are the same due to errors)
+        resize_amount = np.mean(size_differences)
+        
+        
+
+
+
+
+
+    def rotate_images(self, match_distance=0.1):
+        """Match descriptor orientation comparison
+
+        Extracts the difference in orientation and rotates one of the images so that both are
+        oriented the same way. The rotated image has its keypoints extracted and matched again
+        for further match distance calculation.
+
+        Args: 
+            match_distance (float): Parameter for the isopod.match_keypoints function
+        
+        """
+        
+        #initialize list to hold orientation differences
+        orientation_differences = []
+
+        #go through each match and compare the orientations of the matched keypoints
+        for match in self.matches:
+            orientation1 = self.keypoints[0][match[0].queryIdx].angle
+            orientation2 = self.keypoints[1][match[0].trainIdx].angle
+
+            orientation_difference = orientation1-orientation2
+            orientation_differences.append(orientation_difference)
+        
+        #find direction
+        if orientation_differences[np.argmin(np.abs(orientation_differences))]>=0:
+            direction = 1
+        else:
+            direction = -1
+
+        #get mean orientation difference as the smalles angle
+        # and express it as the rotation needed in degrees
+        for i, _ in enumerate(orientation_differences):
+            orientation_differences[i] = np.min([np.abs(orientation_differences[i]), 
+                                                360-np.abs(orientation_differences[i])])
+        
+        rotation_angle = np.mean(orientation_differences)
+
+        #pad the first image with zeroes so that rotation does not lead to any data loss
+        #get the difference between side lengths and diagonal to know how much to pad
+        diagonal = int(np.sqrt(np.sum(np.array(np.shape(self.grayscale_images[0]))**2)))
+        xdiff = int((diagonal - np.shape(self.grayscale_images[0])[0])/2)
+        ydiff = int((diagonal - np.shape(self.grayscale_images[0])[1])/2)
+        self.grayscale_images[0] = np.pad(self.grayscale_images[0], 
+                                          ((xdiff,xdiff),(ydiff,ydiff)))
+        
+        #rotate image
+        self.grayscale_images[0] = imutils.rotate(self.grayscale_images[0], 
+                                                  angle = direction*rotation_angle)
+        
+        #calculate keypoints and descriptors again for image 1
+        keypoints, descriptors = self.sift.detectAndCompute(self.grayscale_images[0], None)
+        self.keypoints[0] = np.array(keypoints)
+        self.descriptors[0] = np.array(descriptors)
+
+        #get new matches
+        self.match_keypoints(match_distance)
+
+        
+
         
 
 if __name__ == "__main__":
@@ -135,9 +228,17 @@ if __name__ == "__main__":
     isp.get_image("cut_1.png", "cut_2.png")
     isp.calculate_keypoints()
     isp.match_keypoints(0.05)
-    print(np.shape(isp.matches))
-    print(type(isp.matches[0][0]))
     
+    new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
+                               isp.grayscale_images[1], isp.keypoints[1],
+                               isp.matches, None,
+                               flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+    plt.imshow(new_img)
+    plt.show()
+    
+    isp.rotate_images(0.05)
+
     new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
                                isp.grayscale_images[1], isp.keypoints[1],
                                isp.matches, None,
