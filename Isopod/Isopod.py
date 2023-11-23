@@ -134,7 +134,8 @@ class isopod:
         """Image resizing
         
         This method resizes the larger image to be the same as the smaller one 
-        in terms of keypoint size.
+        in terms of keypoint size. Match_distance might need to be made larger since interpolating
+        leads to some local errors.
 
         Args: 
             match_distance (float): Parameter for the isopod.match_keypoints function
