@@ -130,11 +130,15 @@ class isopod:
                 self.matches.append([m])
 
 
-    def resize_images(self):
+    def resize_images(self, match_distance = 0.1):
         """Image resizing
         
         This method resizes the larger image to be the same as the smaller one 
         in terms of keypoint size.
+
+        Args: 
+            match_distance (float): Parameter for the isopod.match_keypoints function
+        
         """
 
         #initialize array holding the size difference
@@ -145,7 +149,7 @@ class isopod:
             size1 = self.keypoints[0][match[0].queryIdx].size
             size2 = self.keypoints[1][match[0].trainIdx].size
 
-            size_difference = size1-size2
+            size_difference = size1/size2
             size_differences.append(size_difference) 
         
         #exit function if the size difference is very small
@@ -155,7 +159,28 @@ class isopod:
         #get the mean amount to resize by (not all size differences are the same due to errors)
         resize_amount = np.mean(size_differences)
         
+        #decide which image to resize
+        if resize_amount>1:
+            which = 0
+        else:
+            which = 1
+
+        #take absolute value of the resize amount (to not shrink it in case 2)
+        resize_amount=np.abs(resize_amount)
+
+        #resize the first or second image, depending on which is larger
+        self.grayscale_images[which] = cv.resize(self.grayscale_images[which],
+                                                dsize=(int(np.shape(self.grayscale_images[which])[0]*resize_amount),
+                                                    int(np.shape(self.grayscale_images[which])[1]*resize_amount)),
+                                                interpolation = cv.INTER_AREA)
         
+        #redo keypoint caculation and matching
+        keypoints, descriptors = self.sift.detectAndCompute(self.grayscale_images[which], None)
+        self.keypoints[which] = np.array(keypoints)
+        self.descriptors[which] = np.array(descriptors)
+
+        #get new matches
+        self.match_keypoints(match_distance)                                              
 
 
 
@@ -237,7 +262,8 @@ if __name__ == "__main__":
     plt.imshow(new_img)
     plt.show()
     
-    isp.rotate_images(0.05)
+    isp.resize_images(0.1)
+    isp.rotate_images(0.1)
 
     new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
                                isp.grayscale_images[1], isp.keypoints[1],
