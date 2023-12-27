@@ -66,3 +66,7 @@ autodoc_default_options = {
     'members':         True,
     'member-order':    'bysource',
 }
+
+#generate autosummary even if no references
+autosummary_generate = True
+autosummary_imported_members = True
