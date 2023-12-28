@@ -100,8 +100,16 @@ class isopod:
                                     sigma=self.sigma,
                                     nOctaveLayers=self.n_oct_layers)
             
-            #detect keypoints and compute descriptors
-            keypoints, descriptors = self.sift.detectAndCompute(gray_image, None)
+            #detect keypoints
+            keypoints = np.array(self.sift.detect(gray_image, None))
+
+            #remove multiples
+            locs = np.array([self.kp.pt for kp in keypoints])
+            locs, unique_loc_indices = np.unique(locs, return_index=True, axis=1)
+            keypoints = keypoints[unique_loc_indices]
+
+            #compute descriptors
+            keypoints, descriptors = self.sift.compute(gray_image, keypoints)
             self.keypoints.append(np.array(keypoints))
             self.descriptors.append(np.array(descriptors))
     
