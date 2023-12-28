@@ -244,6 +244,79 @@ class isopod:
         #get new matches
         self.match_keypoints(match_distance)
 
+    def stitch_images(self):
+        '''Image stitching method
+
+        This method stitches the two images together to create one final image. This is done
+        by figuring out the final image size and then "implanting" the images at the correct positions
+
+        Returns:
+            final_canvas (array): The final stitched image created by putting the two given images 
+                at the correct positions on a blank canvas. Open spaces remain zero.
+        '''
+
+        #we can take any match to figure out the dimensions, for ease the first one is taken
+        match0 = self.matches[0][0]
+
+        #get positions of each image's point
+        positions = [self.keypoints[0][match0.queryIdx].pt,
+                     self.keypoints[1][match0.trainIdx].pt]
+        
+        #get image distances in x and y from each side
+        distance0 = [positions[0][0], 
+                     positions[0][1],
+                     np.abs(np.shape(self.grayscale_images[0])[1]-positions[0][0]),
+                     np.abs(np.shape(self.grayscale_images[0])[0]-positions[0][1])]
+        distance1 = [positions[1][0], 
+                     positions[1][1],
+                     np.abs(np.shape(self.grayscale_images[1])[1]-positions[1][0]),
+                     np.abs(np.shape(self.grayscale_images[1])[0]-positions[1][1])]
+
+        #initialize list holding maximum distance to border from the point and then append the max distances
+        max_distance = []
+        max_distance.append(np.max([distance0[0],distance1[0]]))
+        max_distance.append(np.max([distance0[1],distance1[1]]))
+        max_distance.append(np.max([distance0[2],distance1[2]]))
+        max_distance.append(np.max([distance0[3],distance1[3]]))
+        
+        #for easier final image placement, also get which image led to the max border
+        max_distanceidx = []
+        max_distanceidx.append(np.argmax([distance0[0],distance1[0]]))
+        max_distanceidx.append(np.argmax([distance0[1],distance1[1]]))
+        max_distanceidx.append(np.argmax([distance0[2],distance1[2]]))
+        max_distanceidx.append(np.argmax([distance0[3],distance1[3]]))
+
+        #get the final image max size and make a zerofilled matrix with it
+        final_canvas = np.zeros(shape = (int(max_distance[1]+max_distance[3]),
+                                         int(max_distance[0]+max_distance[2])))
+        
+        #find offsets
+        max_distance = np.array(max_distance)
+        max_distanceidx = np.array(max_distanceidx)
+        distance0 = np.array(distance0)
+        distance1 = np.array(distance1)
+        image0_offsets = np.floor(np.where(max_distanceidx ==1, max_distance-distance0, 0)).astype(int)
+        image1_offsets = np.floor(np.where(max_distanceidx ==0, max_distance-distance1, 0)).astype(int)
+
+        #put onto final canvas        
+        #insert first image
+        final_canvas[image0_offsets[1]:image0_offsets[1]+np.shape(self.grayscale_images[0])[0], 
+                image0_offsets[0]:image0_offsets[0]+np.shape(self.grayscale_images[0])[1]] = self.grayscale_images[0]
+
+
+        #get maximum values (i.e. compute overlap) and add to final figure
+        overlap_image1 = np.amax([final_canvas[image1_offsets[1]:image1_offsets[1]+np.shape(self.grayscale_images[1])[0], 
+                     image1_offsets[0]:image1_offsets[0]+np.shape(self.grayscale_images[1])[1]], self.grayscale_images[1]],axis=0)
+    
+        final_canvas[image1_offsets[1]:image1_offsets[1]+np.shape(self.grayscale_images[1])[0], 
+                     image1_offsets[0]:image1_offsets[0]+np.shape(self.grayscale_images[1])[1]] = overlap_image1
+              
+        #return stitched image
+        return final_canvas
+        
+
+                            
+
         
 
         
@@ -253,23 +326,23 @@ if __name__ == "__main__":
     isp = isopod()
     isp.get_image("cut_1.png", "cut_2.png")
     isp.calculate_keypoints()
-    isp.match_keypoints(0.05)
+    isp.match_keypoints(0.1)
     
     new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
                                isp.grayscale_images[1], isp.keypoints[1],
                                isp.matches, None,
                                flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-
-    plt.imshow(new_img)
-    plt.show()
     
     isp.resize_images(0.1)
     isp.rotate_images(0.1)
 
-    new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
+    new_img2 = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
                                isp.grayscale_images[1], isp.keypoints[1],
                                isp.matches, None,
                                flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    final_image = isp.stitch_images()
 
-    plt.imshow(new_img)
+    fig,ax = plt.subplots(2)
+    ax[1].imshow(final_image)
+    ax[0].imshow(new_img2)
     plt.show()
