@@ -104,8 +104,8 @@ class isopod:
             keypoints = np.array(self.sift.detect(gray_image, None))
 
             #remove multiples
-            locs = np.array([self.kp.pt for kp in keypoints])
-            locs, unique_loc_indices = np.unique(locs, return_index=True, axis=1)
+            locs = np.array([kp.pt for kp in keypoints])
+            locs, unique_loc_indices = np.unique(locs, return_index=True, axis=0)
             keypoints = keypoints[unique_loc_indices]
 
             #compute descriptors
