@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+
+
+[project]
+name = "Isopod"
+version = "0.0.1"
+authors = [
+    {name = "Tano Kender"}
+]
+description = "A small package for image stitching."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy >= 1.23.5",
+    "opencv-python-headless >= 4.8.1.78",
+    "matplotlib >= 3.7.2",
+    "imutils >=0.5.4"]
+
+[project.urls]
+Homepage = "https://github.com/InkAtom/Isopod/"
