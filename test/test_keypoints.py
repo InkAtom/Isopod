@@ -1,9 +1,7 @@
-import sys
-sys.path.append('/home/brainless/Master/COSMOS/Isopod/Isopod')
 import cv2 as cv
 
 
-from Isopod import isopod
+from Isopod.Isopod import isopod
 
 def test_find_keypoints():
     isp = isopod(n_oct_layers=10, sigma=2)
