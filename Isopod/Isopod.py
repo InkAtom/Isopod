@@ -230,7 +230,7 @@ class isopod:
             orientation_differences[i] = np.min([np.abs(orientation_differences[i]), 
                                                 360-np.abs(orientation_differences[i])])
         
-        rotation_angle = np.mean(orientation_differences)
+        rotation_angle = np.median(orientation_differences)
 
         #pad the first image with zeroes so that rotation does not lead to any data loss
         #get the difference between side lengths and diagonal to know how much to pad
@@ -321,36 +321,3 @@ class isopod:
               
         #return stitched image
         return final_canvas
-        
-
-                            
-
-        
-
-        
-
-if __name__ == "__main__":
-    
-    isp = isopod()
-    isp.get_image("cut_1.png", "cut_2.png")
-    isp.calculate_keypoints()
-    isp.match_keypoints(0.1)
-    
-    new_img = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
-                               isp.grayscale_images[1], isp.keypoints[1],
-                               isp.matches, None,
-                               flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-    
-    isp.resize_images(0.1)
-    isp.rotate_images(0.1)
-
-    new_img2 = cv.drawMatchesKnn(isp.grayscale_images[0], isp.keypoints[0],
-                               isp.grayscale_images[1], isp.keypoints[1],
-                               isp.matches, None,
-                               flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-    final_image = isp.stitch_images()
-
-    fig,ax = plt.subplots(2)
-    ax[1].imshow(final_image)
-    ax[0].imshow(new_img2)
-    plt.show()
