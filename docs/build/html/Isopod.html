@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isopod Type Header &mdash; Isopod 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Isopod’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Isopod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Isopod Type Header</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Isopod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Isopod Type Header</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Isopod.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="isopod-type-header">
+<span id="isopod"></span><h1>Isopod Type Header<a class="headerlink" href="#isopod-type-header" title="Permalink to this heading"></a></h1>
+<p>Function to perform Isopod type things.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Isopod.isopod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Isopod.</span></span><span class="sig-name descname"><span class="pre">isopod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0003</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_oct_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>InterStitching Of Pictures based On Descriptors aka ISOPOD class</p>
+<p>Calling an instance of this class and feeding two images into it
+allows to automatically stitch them together, assuming they contain the
+same area or object. The automatic detection of which areas are to be stitched together is
+based on the <a class="reference external" href="https://en.wikipedia.org/wiki/Scale-invariant_feature_transform">SIFT</a> algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c_thr</strong> (<em>float</em>) – Contrast threshold parameter for the SIFT algorithm. Defaults to 0.0003.</p></li>
+<li><p><strong>e_thr</strong> (<em>float</em>) – Edge threshold parameter for the SIFT algorithm. Defaults to 10.</p></li>
+<li><p><strong>n_oct_layers</strong> – Parameter indicating the layers for each octave for the SIFt algorithm.
+Defaults to 8.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.images">
+<span class="sig-name descname"><span class="pre">images</span></span><a class="headerlink" href="#Isopod.isopod.images" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the original images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.grayscale_images">
+<span class="sig-name descname"><span class="pre">grayscale_images</span></span><a class="headerlink" href="#Isopod.isopod.grayscale_images" title="Permalink to this definition"></a></dt>
+<dd><p>List holding grayscale versions of the original images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.keypoints">
+<span class="sig-name descname"><span class="pre">keypoints</span></span><a class="headerlink" href="#Isopod.isopod.keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the keypoints for the analyzed images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of cv.Keypoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Isopod.isopod.descriptors">
+<span class="sig-name descname"><span class="pre">descriptors</span></span><a class="headerlink" href="#Isopod.isopod.descriptors" title="Permalink to this definition"></a></dt>
+<dd><p>List holding the descriptors belonging to the keypoints in</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.get_image">
+<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.get_image" title="Permalink to this definition"></a></dt>
+<dd><p>Image getter</p>
+<p>Gets images and adds them in color and grayscale to isopod.images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*images</strong> – Variable number of image filenames to be opened. More than 2 can be opened,
+but only the first two will be stitched together. If images are in different folders,
+this function can be called once for each.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.calculate_keypoints">
+<span class="sig-name descname"><span class="pre">calculate_keypoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.calculate_keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>Keypoint and Descriptor calculation</p>
+<p>This class function applies the SIFT algorithm to each image and calculates their keypoints
+and accompanying descriptors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.match_keypoints">
+<span class="sig-name descname"><span class="pre">match_keypoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.match_keypoints" title="Permalink to this definition"></a></dt>
+<dd><p>Keypoint matcher</p>
+<p>This function forms keypoint pairs between the images based on the distance between descriptors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>match_distance</strong> (<em>float</em>) – This parameter regulates the acceptance threshold for descriptor pairs.
+L2-distances for the 2 nearest neighbours in image 2 are calculated for each descriptor
+in image 1. If the nearer neighbour is closer than match_distance*distance to second nearest
+neighbour, then the descriptors are accepted as pair. Lower threshold leads to more accurate pairs.
+Defaults to 0.1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.resize_images">
+<span class="sig-name descname"><span class="pre">resize_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.resize_images" title="Permalink to this definition"></a></dt>
+<dd><p>Image resizing</p>
+<p>This method resizes the larger image to be the same as the smaller one
+in terms of keypoint size. Match_distance might need to be made larger since interpolating
+leads to some local errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>match_distance</strong> (<em>float</em>) – Parameter for the isopod.match_keypoints function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.rotate_images">
+<span class="sig-name descname"><span class="pre">rotate_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.rotate_images" title="Permalink to this definition"></a></dt>
+<dd><p>Match descriptor orientation comparison</p>
+<p>Extracts the difference in orientation and rotates one of the images so that both are
+oriented the same way. The rotated image has its keypoints extracted and matched again
+for further match distance calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>match_distance</strong> (<em>float</em>) – Parameter for the isopod.match_keypoints function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Isopod.isopod.stitch_images">
+<span class="sig-name descname"><span class="pre">stitch_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Isopod.isopod.stitch_images" title="Permalink to this definition"></a></dt>
+<dd><p>Image stitching method</p>
+<p>This method stitches the two images together to create one final image. This is done
+by figuring out the final image size and then “implanting” the images at the correct positions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>The final stitched image created by putting the two given images</dt><dd><p>at the correct positions on a blank canvas. Open spaces remain zero.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>final_canvas (array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Isopod’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tano Kender.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
