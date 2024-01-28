@@ -25,7 +25,7 @@ from Isopod import isopod
 
 ### Usage
 
-For correct usage please refer to the Jupyter Notebook in /Example. 
+For correct usage refer to the docs
 
 
 
