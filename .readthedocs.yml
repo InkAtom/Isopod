@@ -7,10 +7,13 @@ build:
   os: ubuntu-22.04
   tools:
     python:
-      version: 3.8
-      install:
-        - requirements: docs/requirements.txt
+      "3.8"
 
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:
   configuration: docs/source/conf.py
+
+#this enables the jupyter notebook
+python:
+    install:
+      - requirements: docs/requirements.txt 
