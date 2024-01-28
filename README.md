@@ -1,4 +1,5 @@
-<img src="[https://github.com/InkAtom/Isopod/blob/main/icon.png]" width="456" height="255" />
+<img src="https://github.com/InkAtom/Isopod/blob/main/icon.png" width="456" height="255" />
+
 [![codecov](https://codecov.io/gh/InkAtom/Isopod/graph/badge.svg?token=DPZIZQZ8GB)](https://codecov.io/gh/InkAtom/Isopod) [![Documentation Status](https://readthedocs.org/projects/isopod/badge/?version=latest)](https://isopod.readthedocs.io/en/latest/?badge=latest)
 
 ## Inter-Stitching Of Pictures based On Descriptors
