@@ -32,7 +32,8 @@ release = '0.0.1'
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
-              'sphinx.ext.napoleon'
+              'sphinx.ext.napoleon',
+              'nbsphinx'
 ]
 
 # -- path update ---------------------------------------------------
@@ -70,3 +71,6 @@ autodoc_default_options = {
 #generate autosummary even if no references
 autosummary_generate = True
 autosummary_imported_members = True
+
+#to get notebook working
+source_suffix = [".rst",".md"]

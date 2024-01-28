@@ -13,6 +13,7 @@ Welcome to Isopod's documentation!
    :caption: Contents:
 
    Isopod.rst
+   Example/Example_application
 
 Indices and tables
 ==================

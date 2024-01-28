@@ -1,9 +1,9 @@
 .. _Isopod:
 
-Isopod Type Header
+Isopod Documentation
 =====================
 
-Function to perform Isopod type things.
+Isopod!
 
 .. autoclass:: Isopod.isopod
    :members:
