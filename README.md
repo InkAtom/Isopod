@@ -1,8 +1,5 @@
-# Isopod
-
-[![codecov](https://codecov.io/gh/InkAtom/Isopod/graph/badge.svg?token=DPZIZQZ8GB)](https://codecov.io/gh/InkAtom/Isopod)
-
-[![Documentation Status](https://readthedocs.org/projects/isopod/badge/?version=latest)](https://isopod.readthedocs.io/en/latest/?badge=latest)
+![Isopod](https://github.com/InkAtom/Isopod/blob/main/icon.png)
+[![codecov](https://codecov.io/gh/InkAtom/Isopod/graph/badge.svg?token=DPZIZQZ8GB)](https://codecov.io/gh/InkAtom/Isopod) [![Documentation Status](https://readthedocs.org/projects/isopod/badge/?version=latest)](https://isopod.readthedocs.io/en/latest/?badge=latest)
 
 ## Inter-Stitching Of Pictures based On Descriptors
 
