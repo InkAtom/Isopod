@@ -18,7 +18,7 @@ pip install -i https://test.pypi.org/simple/ Isopod
 The package contents can then be imported using
 
 ```console
-from Isopod import isopod
+from Isopod.Isopod import isopod
 ```
 
 ### Usage
