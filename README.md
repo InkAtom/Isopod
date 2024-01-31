@@ -23,7 +23,7 @@ from Isopod.Isopod import isopod
 
 ### Usage
 
-For correct usage refer to the docs
+For correct usage refer to the docs.
 
 
 
