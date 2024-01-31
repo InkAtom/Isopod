@@ -2,3 +2,4 @@ nbsphinx
 sphinx-rtd-theme
 sphinxcontrib-napoleon
 numpy
+opencv-python
