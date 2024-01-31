@@ -74,4 +74,4 @@ autosummary_generate = True
 autosummary_imported_members = True
 
 #to get notebook working
-source_suffix = [".rst",".md"]
+#source_suffix = [".rst",".md"]
