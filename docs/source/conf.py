@@ -34,7 +34,8 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
               'sphinx.ext.napoleon',
               'sphinx_rtd_theme',
-              'nbsphinx'
+              'nbsphinx',
+              'IPython.sphinxext.ipython_console_highlighting'
 ]
 
 # -- path update ---------------------------------------------------
