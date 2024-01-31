@@ -4,3 +4,4 @@ sphinxcontrib-napoleon
 numpy
 opencv-python
 matplotlib
+imutils
